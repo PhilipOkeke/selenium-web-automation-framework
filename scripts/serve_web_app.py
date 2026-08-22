@@ -44,6 +44,8 @@ class TaskFlowHandler(SimpleHTTPRequestHandler):
         headers = {"Accept": "application/json"}
         if self.headers.get("Content-Type"):
             headers["Content-Type"] = self.headers["Content-Type"]
+        if self.headers.get("Authorization"):
+            headers["Authorization"] = self.headers["Authorization"]
 
         request = Request(
             f"{API_BASE_URL}{self.path}",
