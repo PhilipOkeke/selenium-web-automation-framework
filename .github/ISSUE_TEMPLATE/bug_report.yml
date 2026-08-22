@@ -1,0 +1,29 @@
+name: Bug report
+description: Report a reproducible browser automation problem
+title: '[Bug]: '
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not attach credentials, cookies, personal screenshots, or private URLs.
+  - type: textarea
+    id: description
+    attributes:
+      label: Problem description
+      description: Explain what happened and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include the test command and sanitized scenario.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: OS, Python, browser, WebDriver, headless or headed
+    validations:
+      required: true
