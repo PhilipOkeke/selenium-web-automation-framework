@@ -6,6 +6,18 @@
 
 An end-to-end browser automation framework built with Selenium WebDriver, Python, and PyTest. It tests a responsive TaskFlow web client connected to the [TaskFlow REST API](https://github.com/philip-okeke/taskflow-api).
 
+
+## Architecture
+
+```mermaid
+flowchart LR
+    Tests[PyTest Scenarios] --> Pages[Page Objects]
+    Pages --> Driver[Selenium WebDriver]
+    Driver --> Browser[Real Browser]
+    Tests --> Evidence[Screenshots and Reports]
+    CI[GitHub Actions] --> Tests
+```
+
 This project demonstrates **QA automation** and **software development** together: Page Object Model architecture, explicit waits, browser fixtures, test-data control, failure screenshots, HTML/JUnit reports, CI, and a working JavaScript user interface.
 
 ## Automated user journeys
