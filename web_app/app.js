@@ -1,4 +1,10 @@
 const TASKS_ENDPOINT = "/api/v1/tasks";
+const AUTH_REGISTER_ENDPOINT = "/api/v1/auth/register";
+const AUTH_TOKEN_ENDPOINT = "/api/v1/auth/token";
+const AUTOMATION_EMAIL = "selenium@example.com";
+const AUTOMATION_PASSWORD = "AutomationTest123!";
+
+let accessToken = null;
 
 const elements = {
   apiStatus: document.querySelector("#api-status"),
@@ -23,8 +29,50 @@ async function initialize() {
   elements.statusFilter.addEventListener("change", loadTasks);
   elements.priorityFilter.addEventListener("change", loadTasks);
 
+  await authenticate();
   await checkApiHealth();
   await loadTasks();
+}
+
+async function authenticate() {
+  const registration = await fetch(AUTH_REGISTER_ENDPOINT, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      email: AUTOMATION_EMAIL,
+      password: AUTOMATION_PASSWORD,
+      full_name: "Selenium Browser User",
+    }),
+  });
+
+  if (!registration.ok && ![400, 409].includes(registration.status)) {
+    const body = await registration.json();
+    throw new Error(errorMessage(body));
+  }
+
+  const tokenBody = new URLSearchParams({
+    username: AUTOMATION_EMAIL,
+    password: AUTOMATION_PASSWORD,
+  });
+  const response = await fetch(AUTH_TOKEN_ENDPOINT, {
+    method: "POST",
+    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    body: tokenBody,
+  });
+
+  if (!response.ok) {
+    const body = await response.json();
+    throw new Error(errorMessage(body));
+  }
+
+  accessToken = (await response.json()).access_token;
+}
+
+function authHeaders(headers = {}) {
+  return {
+    ...headers,
+    ...(accessToken ? {Authorization: "Bearer " + accessToken} : {}),
+  };
 }
 
 async function checkApiHealth() {
@@ -49,7 +97,9 @@ async function loadTasks() {
   query.set("limit", "100");
 
   try {
-    const response = await fetch(`${TASKS_ENDPOINT}?${query}`);
+    const response = await fetch(`${TASKS_ENDPOINT}?${query}`, {
+      headers: authHeaders(),
+    });
     const body = await response.json();
     if (!response.ok) throw new Error(errorMessage(body));
     renderTasks(body.items);
@@ -112,7 +162,10 @@ async function deleteTask(taskId, title) {
 async function apiRequest(url, options = {}) {
   const response = await fetch(url, {
     ...options,
-    headers: {"Content-Type": "application/json", ...(options.headers || {})},
+    headers: authHeaders({
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    }),
   });
 
   if (!response.ok) {
