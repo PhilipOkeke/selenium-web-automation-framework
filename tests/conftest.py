@@ -16,6 +16,8 @@ from taskflow_web_automation.driver_factory import create_driver
 from taskflow_web_automation.pages.taskflow_page import TaskFlowPage
 
 SCREENSHOT_DIRECTORY = Path("screenshots")
+SELENIUM_EMAIL = "selenium@example.com"
+SELENIUM_PASSWORD = "AutomationTest123!"
 
 
 @pytest.fixture(scope="session")
@@ -24,14 +26,36 @@ def settings() -> Settings:
 
 
 @pytest.fixture(scope="session")
-def api_session() -> Generator[requests.Session, None, None]:
+def api_session(settings: Settings) -> Generator[requests.Session, None, None]:
     with requests.Session() as session:
         session.headers.update({"Accept": "application/json"})
+        registration = session.post(
+            f"{settings.api_base_url}/api/v1/auth/register",
+            json={
+                "email": SELENIUM_EMAIL,
+                "password": SELENIUM_PASSWORD,
+                "full_name": "Selenium Browser User",
+            },
+            timeout=10,
+        )
+        assert registration.status_code in {201, 400, 409}
+
+        token_response = session.post(
+            f"{settings.api_base_url}/api/v1/auth/token",
+            data={"username": SELENIUM_EMAIL, "password": SELENIUM_PASSWORD},
+            timeout=10,
+        )
+        token_response.raise_for_status()
+        session.headers.update(
+            {"Authorization": f"Bearer {token_response.json()['access_token']}"}
+        )
         yield session
 
 
 def delete_all_tasks(session: requests.Session, api_base_url: str) -> None:
-    response = session.get(f"{api_base_url}/api/v1/tasks", params={"limit": 100}, timeout=10)
+    response = session.get(
+        f"{api_base_url}/api/v1/tasks", params={"limit": 100}, timeout=10
+    )
     response.raise_for_status()
     for task in response.json()["items"]:
         delete_response = session.delete(
@@ -84,7 +108,9 @@ def browser(settings: Settings) -> Generator[WebDriver, None, None]:
 
 @pytest.fixture
 def page(browser: WebDriver, settings: Settings) -> TaskFlowPage:
-    return TaskFlowPage(browser, settings.web_base_url, settings.explicit_wait).load()
+    return TaskFlowPage(
+        browser, settings.web_base_url, settings.explicit_wait
+    ).load()
 
 
 @pytest.hookimpl(hookwrapper=True)
