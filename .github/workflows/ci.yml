@@ -21,7 +21,7 @@ jobs:
       - name: Check out TaskFlow API
         uses: actions/checkout@v6
         with:
-          repository: PhilipOkeke/taskflow-api
+          repository: SenseiPhiL/taskflow-api
           path: system-under-test
 
       - name: Set up Python
@@ -74,4 +74,3 @@ jobs:
             reports/
             screenshots/
           if-no-files-found: warn
-
