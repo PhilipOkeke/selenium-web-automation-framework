@@ -16,10 +16,10 @@ jobs:
 
     steps:
       - name: Check out browser framework
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Check out TaskFlow API
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: SenseiPhiL/taskflow-api
           path: system-under-test
