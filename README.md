@@ -1,10 +1,10 @@
 # Selenium Web Automation Framework
 
-[![Selenium Browser Tests](https://github.com/philip-okeke/selenium-web-automation-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/philip-okeke/selenium-web-automation-framework/actions/workflows/ci.yml)
+[![Selenium Browser Tests](https://github.com/PhilipOkeke/selenium-web-automation-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/PhilipOkeke/selenium-web-automation-framework/actions/workflows/ci.yml)
 [![Selenium](https://img.shields.io/badge/Selenium-WebDriver-43B02A?logo=selenium&logoColor=white)](https://www.selenium.dev/)
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 
-An end-to-end browser automation framework built with Selenium WebDriver, Python, and PyTest. It tests a responsive TaskFlow web client connected to the [TaskFlow REST API](https://github.com/philip-okeke/taskflow-api).
+An end-to-end browser automation framework built with Selenium WebDriver, Python, and PyTest. It tests a responsive TaskFlow web client connected to the [TaskFlow REST API](https://github.com/PhilipOkeke/taskflow-backend-api).
 
 
 ## Architecture
@@ -60,8 +60,8 @@ The tests describe user behavior. Page Objects own locators and browser actions,
 
 This is the browser-testing layer of a three-repository portfolio:
 
-1. [`taskflow-api`](https://github.com/philip-okeke/taskflow-api) — backend REST API development.
-2. [`api-test-automation-framework`](https://github.com/philip-okeke/api-test-automation-framework) — black-box API automation.
+1. [`taskflow-backend-api`](https://github.com/PhilipOkeke/taskflow-backend-api) — backend REST API development.
+2. [`api-testing-framework`](https://github.com/PhilipOkeke/api-testing-framework) — black-box API automation.
 3. `selenium-web-automation-framework` — web client and browser automation.
 
 ## Run locally
@@ -172,5 +172,4 @@ Software Engineer | Backend Developer | QA Automation Engineer
 
 - Email: [Engr.philipokeke@gmail.com](mailto:Engr.philipokeke@gmail.com)
 - LinkedIn: [linkedin.com/in/philip-okeke-8148a42a4](https://www.linkedin.com/in/philip-okeke-8148a42a4)
-- GitHub: [github.com/philip-okeke](https://github.com/philip-okeke)
-
+- GitHub: [github.com/PhilipOkeke](https://github.com/PhilipOkeke)
