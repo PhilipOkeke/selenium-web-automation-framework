@@ -14,7 +14,7 @@ authors = [
 ]
 dependencies = [
   "requests==2.34.2",
-  "selenium==4.47.0",
+  "selenium==4.48.0",
 ]
 
 [project.optional-dependencies]
